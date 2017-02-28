@@ -10,10 +10,14 @@ import { DetailsPage } from '../details/details';
 export class RedditsPage {
 
   items: any;
-  constructor(
-    public navCtrl: NavController,
-    private redditService: RedditService) {
-
+  category: any;
+  limit: any;
+  constructor(public navCtrl: NavController, private redditService: RedditService) {
+    this.getDefaults();
+  }
+  getDefaults(){
+    this.category = 'sports';
+    this.limit = 10;
   }
   getPosts(category, limit){
     this.redditService.getPosts(category, limit)
@@ -23,11 +27,13 @@ export class RedditsPage {
       })
   }
   viewItem(item){
-    console.log('item', item);
     this.navCtrl.push(DetailsPage, {item: item});   //Navigate to detail page with current item
   }
   ngOnInit(){
-    this.getPosts('sports', 50);
+    this.getPosts(this.category, this.limit);
+  }
+  changeCategory(){
+    this.getPosts(this.category, this.limit);
   }
 
 }
